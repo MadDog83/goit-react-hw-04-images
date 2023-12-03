@@ -212,3 +212,28 @@ img {
   align-items: center;
   height: 100vh;
 }
+
+.ErrorMessage {
+  color: red;
+  text-align: center;
+  padding: 10px;
+  margin: 20px;
+  border: 1px solid red;
+  border-radius: 5px;
+  background-color: #ffe6e6;
+}
+
+.ErrorMessage button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f44336;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.ErrorMessage button:hover {
+  background-color: #d32f2f;
+}
