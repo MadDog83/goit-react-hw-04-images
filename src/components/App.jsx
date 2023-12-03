@@ -13,6 +13,8 @@ const App = () => {
   const [query, setQuery] = useState('');
   const [largeImageURL, setLargeImageURL] = useState(null);
   const [error, setError] = useState(null);
+  const [totalHits, setTotalHits] = useState(0);
+  const [imagesCount, setImagesCount] = useState(0);
 
   useEffect(() => {
     if (!query) return;
@@ -27,6 +29,8 @@ const App = () => {
 
         if (response.ok) {
           setImages(prevImages => [...prevImages, ...data.hits]);
+          setTotalHits(data.totalHits);
+          setImagesCount(prevCount => prevCount + data.hits.length);
         } else {
           throw new Error(data.message || 'Something went wrong');
         }
@@ -49,6 +53,8 @@ const App = () => {
     setImages([]);
     setQuery(query);
     setPage(1);
+    setTotalHits(0);
+    setImagesCount(0);
   };
 
   const loadMore = () => {
@@ -69,10 +75,11 @@ const App = () => {
       {error && <div className="ErrorMessage">Error: {error} <button onClick={retryFetch}>Retry</button></div>}
       {loading && <Loader />}
       <ImageGallery images={images} onSelect={openModal} />
-      {images.length > 0 && !loading && <Button onClick={loadMore} imagesLoaded={!loading} />}
-      {largeImageURL && <Modal largeImageURL={largeImageURL} onClose={closeModal} />}
+      {images.length > 0 && images.length < totalHits && !loading && <Button onClick={loadMore} imagesCount={imagesCount} totalHits={totalHits} />}
+      {largeImageURL && <Modal onClose={closeModal} largeImageURL={largeImageURL} />}
     </div>
   );
 };
+
 
 export default App;
